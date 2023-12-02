@@ -28,4 +28,18 @@
 # define BGRED "\033[41m"
 # define RESET "\033[0m"
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	s_env	*next;
+}				t_env;
+
+typedef struct s_data
+{
+	char	*input;
+	char	**command;
+	t_env	*env;
+}				t_data;
+
 #endif
