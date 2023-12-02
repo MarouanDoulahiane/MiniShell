@@ -159,6 +159,58 @@ void	ft_unset(char **command, t_env **env_lst)
 	}
 }
 
+char	**ft_creat_argv_for_execve(t_data *data)
+{
+	char	**execve_argv;
+	char	*command;
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	command = NULL;
+	while (data->env_array[i])
+	{
+		command = ft_strjoin(data->env_array[i], "/");
+		tmp = command;
+		command = ft_strjoin(command, data->command[0]);
+		free(tmp);
+		if (access(command, X_OK) == 0)
+			break ;
+		free(command);
+		command = NULL;
+		i++;
+	}
+	return (execve_argv);
+}
+
+void	ft_execve(t_data *data)
+{
+	pid_t	pid;
+	char	**execve_argv;
+
+	execve_argv = ft_creat_argv_for_execve(data);
+	if (!execve_argv)
+	{
+		printf("minishell: %s: command not found\n", data->command[0]);
+		return ;
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("minishell: %s: fork error\n", data->command[0]);
+		return ;
+	}
+	else if (pid == 0)
+	{
+		if (execve(execve_argv[0], execve_argv, data->env_array) == -1)
+			printf("minishell: %s: command not found\n", data->command[0]);
+		exit(0);
+	}
+	else
+		waitpid(pid, NULL, 0);
+	free_array(execve_argv);
+}
+
 void	handle_command(t_data **data)
 {
 	if (!ft_strcmp((*data)->command[0], "exit"))
@@ -176,7 +228,7 @@ void	handle_command(t_data **data)
 	else if (!ft_strcmp((*data)->command[0], "unset"))
 		ft_unset((*data)->command, &(*data)->env);
 	else
-		printf("minishell: command not found: %s\n", (*data)->command[0]);
+		ft_execve(*data);
 }
 
 void	ft_clear_data(t_env *env_lst)
@@ -222,6 +274,7 @@ t_data	*init_data(char **env)
 	if (!data)
 		return (NULL);
 	data->env = setup_env(env);
+	data->env_array = env;
 	if (!data->env)
 	{
 		free(data);
@@ -243,7 +296,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	data = init_data(env);
-	atexit(f);
+	// atexit(f);
 	while (1)
 	{
 		data->input = prompt();

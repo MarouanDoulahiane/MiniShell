@@ -39,6 +39,7 @@ typedef struct s_data
 {
 	char	*input;
 	char	**command;
+	char	**env_array;
 	t_env	*env;
 }				t_data;
 
