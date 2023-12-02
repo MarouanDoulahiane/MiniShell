@@ -48,15 +48,12 @@ void	free_array(char **array)
 	free(array);
 }
 
-void	ft_env(char **env)
+void	ft_env(t_env *env_lst)
 {
-	int	i;
-
-	i = 0;
-	while (env[i])
+	while (env_lst)
 	{
-		printf("%s\n", env[i]);
-		i++;
+		printf("%s=%s\n", env_lst->key, env_lst->value);
+		env_lst = env_lst->next;
 	}
 }
 
@@ -64,12 +61,17 @@ void	ft_echo(char **command)
 {
 	int	i;
 
-	i = 1;
+	if (command[1] && !ft_strcmp(command[1], "-n"))
+		i = 2;
+	else
+		i = 1;
 	while (command[i])
 	{
 		printf("%s ", command[i]);
 		i++;
 	}
+	if (command[1] && !ft_strcmp(command[1], "-n"))
+		return ;
 	printf("\n");
 }
 
@@ -124,6 +126,37 @@ void	ft_export(char **command, t_env **env_lst)
 	}
 	if (!command[1])
 		declare_export(*env_lst);
+}
+
+void	ft_unset(char **command, t_env **env_lst)
+{
+	t_env	*tmp;
+	t_env	*prev;
+	int		i;
+
+	i = 1;
+	while (command[i])
+	{
+		tmp = *env_lst;
+		prev = NULL;
+		while (tmp)
+		{
+			if (!ft_strcmp(tmp->key, command[i]))
+			{
+				if (prev)
+					prev->next = tmp->next;
+				else
+					*env_lst = tmp->next;
+				free(tmp->key);
+				free(tmp->value);
+				free(tmp);
+				break ;
+			}
+			prev = tmp;
+			tmp = tmp->next;
+		}
+		i++;
+	}
 }
 
 void	handle_command(t_data **data)
@@ -190,7 +223,7 @@ t_data	*init_data(char **env)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	data->env = setupenv_lst(env);
+	data->env = setup_env(env);
 	if (!data->env)
 	{
 		free(data);
