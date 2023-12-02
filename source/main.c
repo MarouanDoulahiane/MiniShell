@@ -29,7 +29,6 @@ void	save_history(char *input)
 {
 	if (input && *input && !is_whitespace(input))
 		add_history(input);
-	free(input);
 }
 
 
@@ -93,28 +92,60 @@ void	ft_pwd(void)
 	printf("%s\n", path);
 }
 
-
-void	handle_command(char **command, char **env)
+void	declare_export(t_env *env_lst)
 {
-	if (ft_strcmp(command[0], "exit") == 0)
+	while (env_lst)
 	{
-		free_array(command);
-		exit(0);
+		printf("declare -x %s=\"%s\"\n", env_lst->key, env_lst->value);
+		env_lst = env_lst->next;
 	}
-	else if (ft_strcmp(command[0], "echo") == 0)
-		ft_echo(command);
-	else if (ft_strcmp(command[0], "cd") == 0)
-		ft_cd(command);
-	else if (ft_strcmp(command[0], "pwd") == 0)
+}
+
+void	ft_export(char **command, t_env **env_lst)
+{
+	t_env	*new;
+	char	*key;
+	char	*value;
+	int		i;
+
+	i = 1;
+	while (command[i])
+	{
+		key = ft_substr(command[i], 0, ft_strchr(command[i], '=') - command[i]);
+		value = ft_substr(command[i], ft_strchr(command[i], '=') - command[i] + 1, ft_strlen(command[i]));
+		new = malloc(sizeof(t_env));
+		if (!new)
+			return ;
+		new->key = key;
+		new->value = value;
+		new->next = *env_lst;
+		*env_lst = new;
+		i++;
+	}
+	if (!command[1])
+		declare_export(*env_lst);
+}
+
+void	handle_command(t_data **data)
+{
+	if (!ft_strcmp((*data)->command[0], "exit"))
+		exit(0);
+	else if (!ft_strcmp((*data)->command[0], "env"))
+		ft_env((*data)->env);
+	else if (!ft_strcmp((*data)->command[0], "echo"))
+		ft_echo((*data)->command);
+	else if (!ft_strcmp((*data)->command[0], "cd"))
+		ft_cd((*data)->command);
+	else if (!ft_strcmp((*data)->command[0], "pwd"))
 		ft_pwd();
-	// else if (ft_strcmp(command[0], "export") == 0)
-		// ft_export(command, env);
-	// else if (ft_strcmp(command[0], "unset") == 0)
-	// 	ft_unset(command);
-	else if (ft_strcmp(command[0], "env") == 0)
-		ft_env(env);
-	// else
-		// ft_exec(command);
+	else if (!ft_strcmp((*data)->command[0], "export"))
+		ft_export((*data)->command, &(*data)->env);
+	else if (!ft_strcmp((*data)->command[0], "unset"))
+		ft_unset((*data)->command, &(*data)->env);
+	// else if (!ft_strcmp((*data)->command[0], "history"))
+		// ft_history();
+	else
+		printf("minishell: command not found: %s\n", (*data)->command[0]);
 }
 
 void	ft_clear_data(t_env *env_lst)
@@ -168,24 +199,29 @@ t_data	*init_data(char **env)
 	return (data);
 }
 
+void	free_data(t_data *data)
+{
+	free_array(data->command);
+	free(data->input);
+}
+
 int	main(int ac, char **av, char **env)
 {
-	char	*input;
-	char	**command;
 	t_data	*data;
 
 	(void)ac;
 	(void)av;
 	data = init_data(env);
-	// setupenv_lst(env);
-	// atexit(f);
-	// while (1)
-	// {
-	// 	input = prompt();
-	// 	command = ft_split(input, ' ');
-	// 	save_history(input);
-	// 	handle_command(command, env);
-	// 	free_array(command);
-	// }
+	atexit(f);
+	while (1)
+	{
+		data->input = prompt();
+		if (!data->input || !*data->input || is_whitespace(data->input))
+			continue ;
+		data->command = ft_split(data->input, ' ');
+		save_history(data->input);
+		handle_command(&data);
+		free_data(data);
+	}
 	return (0);
 }
