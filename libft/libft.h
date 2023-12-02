@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 08:56:08 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/11/01 21:43:57 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/02 21:01:03 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 int		ft_atoi(const char *str);
+int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 

@@ -9,6 +9,7 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "../libft/libft.h"
 
 # define GREEN "\033[1;32m"
 # define RED "\033[1;31m"
