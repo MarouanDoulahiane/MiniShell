@@ -175,8 +175,6 @@ void	handle_command(t_data **data)
 		ft_export((*data)->command, &(*data)->env);
 	else if (!ft_strcmp((*data)->command[0], "unset"))
 		ft_unset((*data)->command, &(*data)->env);
-	// else if (!ft_strcmp((*data)->command[0], "history"))
-		// ft_history();
 	else
 		printf("minishell: command not found: %s\n", (*data)->command[0]);
 }
