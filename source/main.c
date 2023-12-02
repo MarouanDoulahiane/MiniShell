@@ -1,7 +1,4 @@
-#include "header.h"
-#include <stdarg.h>
-
-va_list args;
+#include "../headers/minishell.h"
 
 char	*prompt(void)
 {
@@ -52,4 +49,3 @@ int	main(void)
 	}
 	return (0);
 }
-		
