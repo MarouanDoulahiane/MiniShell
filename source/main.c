@@ -58,21 +58,45 @@ void	ft_env(t_env *env_lst)
 	}
 }
 
-void	ft_echo(char **command)
+bool	check_is_dash_n_for_echo(char *command)
 {
 	int	i;
 
-	if (command[1] && !ft_strcmp(command[1], "-n"))
-		i = 2;
-	else
-		i = 1;
+	i = 0;
+	if (command[i] != '-')
+		return (0);
+	i++;
+	if (command[i] != 'n')
+		return (0);
+	i++;
 	while (command[i])
 	{
-		printf("%s ", command[i]);
+		if (command[i] != 'n')
+			return (0);
 		i++;
 	}
-	if (command[1] && !ft_strcmp(command[1], "-n"))
-		return ;
+	return (1);
+}
+
+void	ft_echo(char **command)
+{
+	int		i;
+	bool	is_dash_n;
+
+	i = 1;
+	is_dash_n = 0;
+	while (command[i] && check_is_dash_n_for_echo(command[i]))
+	{
+		is_dash_n = 1;
+		i++;
+	}
+	while (command[i])
+	{
+		printf("%s", command[i]);
+		if (command[i + 1])
+			printf(" ");
+		i++;
+	}
 	printf("\n");
 }
 
