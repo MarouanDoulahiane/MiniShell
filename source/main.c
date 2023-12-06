@@ -52,7 +52,8 @@ void	ft_env(t_env *env_lst)
 {
 	while (env_lst)
 	{
-		printf("%s=%s\n", env_lst->key, env_lst->value);
+		if (env_lst->value)
+			printf("%s=%s\n", env_lst->key, env_lst->value);
 		env_lst = env_lst->next;
 	}
 }
@@ -121,6 +122,11 @@ void	declare_export(t_env *env_lst)
 {
 	while (env_lst)
 	{
+		if (!ft_strcmp(env_lst->key, "_"))
+		{
+			env_lst = env_lst->next;
+			continue ;
+		}
 		printf("declare -x %s", env_lst->key);
 		if (env_lst->value) // check if we have value or not
 			printf("=\"%s\"", env_lst->value);
@@ -411,10 +417,36 @@ void ft_execve(t_data *data) {
 	free(execve_argv); 
 }
 
+void	ft_exit(char **command)
+{
+	int	i;
+
+	i = 0;
+	while (command[i])
+		i++;
+	if (i == 1)
+		exit(EXIT_SUCCESS);
+	else if (i == 2)
+	{
+		if (ft_isdigit(command[1][0]))
+			exit(ft_atoi(command[1]));
+		else
+		{
+			printf("minishell: exit: %s: numeric argument required\n", command[1]);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		printf("minishell: exit: too many arguments\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
 void	handle_command(t_data **data)
 {
 	if (!ft_strcmp((*data)->command[0], "exit"))
-		exit(0);
+		ft_exit((*data)->command);
 	else if (!ft_strcmp((*data)->command[0], "env"))
 		ft_env((*data)->env);
 	else if (!ft_strcmp((*data)->command[0], "echo"))
@@ -454,6 +486,7 @@ t_env	*setup_env_when_we_dont_have_it(void)
 	add_at_the_end_of_env_lst(&env_lst, ft_strdup("OLDPWD"), NULL);
 	add_at_the_end_of_env_lst(&env_lst, ft_strdup("PWD"), getcwd(NULL, 0));
 	add_at_the_end_of_env_lst(&env_lst, ft_strdup("SHLVL"), ft_strdup("1"));
+	add_at_the_end_of_env_lst(&env_lst, ft_strdup("_"), ft_strdup("/usr/bin/env"));
 
 	return (env_lst);
 }
