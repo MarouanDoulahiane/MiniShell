@@ -1,5 +1,5 @@
 #ifndef HEADER_H
-#define HEADER_H
+# define HEADER_H
 
 # include <fcntl.h>
 # include <unistd.h>
@@ -30,6 +30,7 @@
 
 typedef struct s_env
 {
+	bool			is_env;
 	char			*key;
 	char			*value;
 	struct s_env	*next;

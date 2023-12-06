@@ -75,8 +75,29 @@ void	ft_echo(char **command)
 	printf("\n");
 }
 
-void	ft_cd(char **command)
+bool	replace_old_value_if_exist(t_env **env_lst, char *key, char *value)
 {
+	t_env	*tmp;
+
+	tmp = *env_lst;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, key))
+		{
+			free(tmp->value);
+			tmp->value = value;
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+void	ft_cd(char **command, t_env **env)
+{
+	char	*path;
+
+	path = getcwd(NULL, 0);
 	if (command[1])
 	{
 		if (chdir(command[1]) == -1)
@@ -84,6 +105,8 @@ void	ft_cd(char **command)
 	}
 	else
 		chdir(getenv("HOME"));
+	replace_old_value_if_exist(env, "OLDPWD", path);
+	replace_old_value_if_exist(env, "PWD", getcwd(NULL, 0));
 }
 
 void	ft_pwd(void)
@@ -98,34 +121,123 @@ void	declare_export(t_env *env_lst)
 {
 	while (env_lst)
 	{
-		printf("declare -x %s=\"%s\"\n", env_lst->key, env_lst->value);
+		printf("declare -x %s", env_lst->key);
+		if (env_lst->value) // check if we have value or not
+			printf("=\"%s\"", env_lst->value);
+		printf("\n");
 		env_lst = env_lst->next;
 	}
+}
+void	add_at_the_end_of_env_lst(t_env **env_lst, char *key, char *value)
+{
+	t_env	*new;
+	t_env	*tmp;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return ;
+	new->key = key;
+	new->value = value;
+	new->next = NULL;
+	if (!*env_lst)
+	{
+		*env_lst = new;
+		return ;
+	}
+	tmp = *env_lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
+
+bool	check_if_valid_key(char *key)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(key[i]) && key[i] != '_')
+		return (0);
+	i++;
+	while (key[i] != '=' && key[i])
+	{
+		if (key[i] == '+' && key[i + 1] == '=')
+			return (1);
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	*get_the_env(t_env *env_lst, char *key)
+{
+	while (env_lst)
+	{
+		if (!ft_strcmp(env_lst->key, key))
+			return (env_lst->value);
+		env_lst = env_lst->next;
+	}
+	return (NULL);
 }
 
 void	ft_export(char **command, t_env **env_lst)
 {
-	t_env	*new;
 	char	*key;
 	char	*value;
+	char	*tmp;
 	int		i;
 
 	i = 1;
 	while (command[i])
 	{
-		key = ft_substr(command[i], 0, ft_strchr(command[i], '=') - command[i]);
-		value = ft_substr(command[i], ft_strchr(command[i], '=') - command[i] + 1, ft_strlen(command[i]));
-		new = malloc(sizeof(t_env));
-		if (!new)
-			return ;
-		new->key = key;
-		new->value = value;
-		new->next = *env_lst;
-		*env_lst = new;
+		if(!check_if_valid_key(command[i]))
+		{
+			printf("minishell: export: `%s': not a valid identifier\n", command[i]);
+			i++;
+			continue ;
+		}
+		tmp = ft_strchr(command[i], '+');
+		if (tmp && tmp[1] == '=')
+		{
+			key = ft_substr(command[i], 0, ft_strchr(command[i], '+') - command[i]);
+			value = ft_strjoin(get_the_env(*env_lst, key), ft_strchr(command[i], '=') + 1);
+			if (!value)
+				value = ft_strdup(ft_strchr(command[i], '=') + 1);
+		}
+		else if (!ft_strchr(command[i], '='))
+		{
+			key = ft_strdup(command[i]);
+			value = NULL;
+		}
+		else
+		{
+			key = ft_substr(command[i], 0, ft_strchr(command[i], '=') - command[i]);
+			value = ft_substr(command[i], ft_strchr(command[i], '=') - command[i] + 1, ft_strlen(command[i]));
+		}
+		if (!replace_old_value_if_exist(env_lst, key, value))
+			add_at_the_end_of_env_lst(env_lst, key, value);
 		i++;
 	}
 	if (!command[1])
 		declare_export(*env_lst);
+}
+
+bool	check_if_valid_unset_identifier(char *key)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(key[i]) && key[i] != '_')
+		return (0);
+	i++;
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 void	ft_unset(char **command, t_env **env_lst)
@@ -137,11 +249,17 @@ void	ft_unset(char **command, t_env **env_lst)
 	i = 1;
 	while (command[i])
 	{
+		if (!check_if_valid_unset_identifier(command[i]))
+		{
+			printf("minishell: unset: `%s': not a valid identifier\n", command[i]);
+			i++;
+			continue ;
+		}
 		tmp = *env_lst;
 		prev = NULL;
 		while (tmp)
 		{
-			if (!ft_strcmp(tmp->key, command[i]))
+			if (!ft_strcmp(tmp->key, command[i]) && ft_strcmp(tmp->key, "_"))
 			{
 				if (prev)
 					prev->next = tmp->next;
@@ -159,56 +277,138 @@ void	ft_unset(char **command, t_env **env_lst)
 	}
 }
 
+int	ft_array_len(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
+}
+
 char	**ft_creat_argv_for_execve(t_data *data)
 {
 	char	**execve_argv;
+	char	**path;
 	char	*command;
+	char	secure_path[41];
 	char	*tmp;
 	int		i;
 
-	i = 0;
 	command = NULL;
-	while (data->env_array[i])
+	path = ft_split(getenv("PATH"), ':');
+	ft_strlcpy(secure_path, "usr/gnu/bin:/usr/local/bin:/bin:/usr/bin", 41);
+	if (!path)
 	{
-		command = ft_strjoin(data->env_array[i], "/");
-		tmp = command;
-		command = ft_strjoin(command, data->command[0]);
+		path = ft_split(secure_path, ':');
+		if (!path)
+			return (NULL);
+	}
+	i = 0;
+	while (path[i])
+	{
+		tmp = ft_strjoin(path[i], "/");
+		command = ft_strjoin(tmp, data->command[0]);
 		free(tmp);
-		if (access(command, X_OK) == 0)
+		if (!access(command, X_OK))
 			break ;
 		free(command);
 		command = NULL;
 		i++;
 	}
+	if (!command)
+	{
+		command = ft_strdup(data->command[0]);
+		if (!access(command, X_OK))
+		{
+			if (!ft_strcmp(data->command[0], "./minishell") && get_the_env(data->env, "SHLVL"))
+				replace_old_value_if_exist(&data->env, "SHLVL", ft_itoa(ft_atoi(get_the_env(data->env, "SHLVL")) + 1));
+		}
+		else
+			return (free(command), NULL);
+	}
+	execve_argv = malloc(sizeof(char *) * (ft_array_len(data->command) + 1));
+	if (!execve_argv)
+		return (free_array(path), NULL);
+	execve_argv[0] = command;
+	i = 1;
+	while (data->command[i])
+	{
+		execve_argv[i] = data->command[i];
+		i++;
+	}
+	execve_argv[i] = NULL;
+	free_array(path);
 	return (execve_argv);
 }
 
-void	ft_execve(t_data *data)
+int	t_env_size(t_env *env_lst)
 {
-	pid_t	pid;
-	char	**execve_argv;
+	int	i;
+
+	i = 0;
+	while (env_lst)
+	{
+		i++;
+		env_lst = env_lst->next;
+	}
+	return (i);
+}
+
+char	**get_the_env_from_lst(t_env *env_lst)
+{
+	char	**env;
+	int		i;
+
+	i = 0;
+	env = malloc(sizeof(char *) * (t_env_size(env_lst) + 1));
+	if (!env)
+		return (NULL);
+	while (env_lst)
+	{
+		env[i] = ft_strjoin(env_lst->key, "=");
+		if (env_lst->value)
+			env[i] = ft_strjoin(env[i], env_lst->value);
+		i++;
+		env_lst = env_lst->next;
+	}
+	env[i] = NULL;
+	return (env);
+}
+
+void ft_execve(t_data *data) {
+    int pid;
+    int status;
+    char **execve_argv;
 
 	execve_argv = ft_creat_argv_for_execve(data);
-	if (!execve_argv)
-	{
+	if (!execve_argv) {
 		printf("minishell: %s: command not found\n", data->command[0]);
 		return ;
 	}
-	pid = fork();
-	if (pid == -1)
+    pid = fork();
+    if (pid == -1)
 	{
-		printf("minishell: %s: fork error\n", data->command[0]);
-		return ;
-	}
-	else if (pid == 0)
+        perror("fork");
+        return;
+    }
+    if (pid == 0)
 	{
-		if (execve(execve_argv[0], execve_argv, data->env_array) == -1)
-			printf("minishell: %s: command not found\n", data->command[0]);
-		exit(0);
-	}
+        execve(execve_argv[0], execve_argv, get_the_env_from_lst(data->env));
+        perror("execve");
+        exit(EXIT_FAILURE);
+    }
 	else
-		waitpid(pid, NULL, 0);
-	free_array(execve_argv);
+	{
+        if (waitpid(pid, &status, 0) == -1)
+		{
+            perror("waitpid");
+            return;
+        }
+    }
+	free(execve_argv[0]);
+	free(execve_argv); 
 }
 
 void	handle_command(t_data **data)
@@ -220,7 +420,7 @@ void	handle_command(t_data **data)
 	else if (!ft_strcmp((*data)->command[0], "echo"))
 		ft_echo((*data)->command);
 	else if (!ft_strcmp((*data)->command[0], "cd"))
-		ft_cd((*data)->command);
+		ft_cd((*data)->command, &(*data)->env);
 	else if (!ft_strcmp((*data)->command[0], "pwd"))
 		ft_pwd();
 	else if (!ft_strcmp((*data)->command[0], "export"))
@@ -244,23 +444,36 @@ void	ft_clear_data(t_env *env_lst)
 		free(tmp);
 	}
 }
+
+
+t_env	*setup_env_when_we_dont_have_it(void)
+{
+	t_env	*env_lst;
+
+	env_lst = NULL;
+	add_at_the_end_of_env_lst(&env_lst, ft_strdup("OLDPWD"), NULL);
+	add_at_the_end_of_env_lst(&env_lst, ft_strdup("PWD"), getcwd(NULL, 0));
+	add_at_the_end_of_env_lst(&env_lst, ft_strdup("SHLVL"), ft_strdup("1"));
+
+	return (env_lst);
+}
+
 t_env	*setup_env(char **env)
 {
 	t_env	*env_lst;
-	t_env	*new;
+	char	*key;
+	char	*value;
 	int		i;
 
 	i = 0;
 	env_lst = NULL;
+	if (!*env)
+		return (setup_env_when_we_dont_have_it());
 	while (env[i])
 	{
-		new = malloc(sizeof(t_env));
-		if (!new)
-			return (ft_clear_data(env_lst) ,NULL);
-		new->key = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
-		new->value = ft_substr(env[i], ft_strchr(env[i], '=') - env[i] + 1, ft_strlen(env[i]));
-		new->next = env_lst;
-		env_lst = new;
+		key = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
+		value = ft_substr(env[i], ft_strchr(env[i], '=') - env[i] + 1, ft_strlen(env[i]));
+		add_at_the_end_of_env_lst(&env_lst, ft_strdup(key), ft_strdup(value));
 		i++;
 	}
 	return (env_lst);
@@ -273,8 +486,8 @@ t_data	*init_data(char **env)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	data->env = setup_env(env);
 	data->env_array = env;
+	data->env = setup_env(env);
 	if (!data->env)
 	{
 		free(data);
