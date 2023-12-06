@@ -417,6 +417,20 @@ void ft_execve(t_data *data) {
 	free(execve_argv); 
 }
 
+bool	are_digits(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	ft_exit(char **command)
 {
 	int	i;
@@ -428,18 +442,26 @@ void	ft_exit(char **command)
 		exit(EXIT_SUCCESS);
 	else if (i == 2)
 	{
-		if (ft_isdigit(command[1][0]))
+		if (are_digits(command[1]))
+		{
+			printf("exit\n");
 			exit(ft_atoi(command[1]));
+		}
 		else
 		{
-			printf("minishell: exit: %s: numeric argument required\n", command[1]);
-			exit(EXIT_FAILURE);
+			printf("exit\nminishell: exit: %s: numeric argument required\n", command[1]);
+			exit(255);
 		}
 	}
 	else
 	{
-		printf("minishell: exit: too many arguments\n");
-		exit(EXIT_FAILURE);
+		if (are_digits(command[1]))
+			printf("exit\nminishell: exit: too many arguments\n");
+		else
+		{
+			printf("exit\nminishell: exit: %s: numeric argument required\n", command[1]);
+			exit(255);
+		}
 	}
 }
 
