@@ -97,7 +97,8 @@ void	ft_echo(char **command)
 			printf(" ");
 		i++;
 	}
-	printf("\n");
+	if (!is_dash_n)
+		printf("\n");
 }
 
 bool	replace_old_value_if_exist(t_env **env_lst, char *key, char *value)
