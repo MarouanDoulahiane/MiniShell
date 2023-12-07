@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:20:14 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:20:15 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 21:22:58 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,20 @@ void	free_data(t_data *data, bool free_envp)
 	}
 	free_array(data->command);
 	free(data->input);
+}
+
+bool	is_whitespace(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ' && !(str[i] >= 9 && str[i] <= 13))
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 int	main(int ac, char **av, char **envp)
