@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:41:54 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:15:26 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 21:37:28 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_cd(t_data *data)
 {
 	if (!check_if_dir_exist(data->command[1]))
 		return ;
-	if (data->command[1])
+	if (data->command[1] && ft_strcmp(data->command[1], "~"))
 	{
 		if (chdir(data->command[1]) == -1)
 		{
@@ -46,7 +46,7 @@ void	ft_cd(t_data *data)
 			replace_old_t_env_value(data, "OLDPWD",
 				ft_strdup(ft_get_env(data, "PWD")));
 	}
-	else
+	else if (!data->command[1] || !ft_strcmp(data->command[1], "~"))
 	{
 		if (chdir(getenv("HOME")) == -1)
 		{
