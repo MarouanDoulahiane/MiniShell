@@ -1,5 +1,17 @@
-#ifndef HEADER_H
-# define HEADER_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/07 20:14:18 by mdoulahi          #+#    #+#             */
+/*   Updated: 2023/12/07 20:15:48 by mdoulahi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <errno.h>
 # include <fcntl.h>
@@ -10,7 +22,6 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "execution.h"
 # include "../libft/libft.h"
 
 # define GREEN "\033[1;32m"
@@ -46,7 +57,6 @@ typedef struct s_data
 	t_envp	*envp;
 }				t_data;
 
-
 // initialization
 t_data	*initialize_data(char **envp);
 
@@ -61,7 +71,7 @@ void	ft_exit(t_data	*data);
 void	ft_export(t_data *data);
 
 // execution
-void ft_execve(t_data *data);
+void	ft_execve(t_data *data);
 
 // free
 void	free_array(char **array);
@@ -81,5 +91,13 @@ char	*ft_get_key(char *str);
 char	*ft_get_value(char *str);
 char	*ft_get_env(t_data *data, char *key);
 t_envp	*create_t_envp(char *key, char *value);
+
+// execve tools
+char	**ft_get_path(t_data *data);
+int		ft_t_envp_size(t_envp *envp);
+char	**ft_env_to_array(t_envp *envp);
+char	**ft_get_execve_args(t_data *data);
+bool	check_command_if_it_exists_in_current_dir(t_data *data, char **command);
+bool	check_command_if_it_exists_in_path(t_data *data, char **path, char **c);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:39:57 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/06 19:39:58 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:15:36 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../headers/execution.h"
+#include "../../../headers/minishell.h"
 
 void	replace_old_t_env_value(t_data *data, char *key, char *value)
 {

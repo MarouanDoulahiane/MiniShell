@@ -6,30 +6,11 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:12:32 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 14:28:40 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:15:39 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../headers/execution.h"
-
-void	ft_declare_export(t_data *data)
-{
-	t_envp	*temp;
-
-	temp = data->envp;
-	while (temp)
-	{
-		if (ft_strcmp(temp->key, "_"))
-		{
-			printf("declare -x %s", temp->key);
-			if (temp->value)
-				printf("=\"%s\"", temp->value);
-			printf("\n");
-		}
-		temp = temp->next;
-	}
-
-}
+#include "../../../headers/minishell.h"
 
 bool	ft_check_valid_key(char *str)
 {
@@ -105,7 +86,7 @@ void	ft_add_env(t_data *data, char *str)
 
 	key = ft_get_key(str);
 	value = ft_get_value(str);
-	if (ft_is_key_exist(data, key) && !ft_get_env(data, key)) // check if key exist but value is null
+	if (ft_is_key_exist(data, key))
 		replace_old_t_env_value(data, key, value);
 	else
 		add_back_t_envp(&data->envp, create_t_envp(key, value));

@@ -6,11 +6,11 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:24:23 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 12:48:37 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:16:50 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../headers/execution.h"
+#include "../../../headers/minishell.h"
 
 void	ft_exit_helper(t_data	*data)
 {

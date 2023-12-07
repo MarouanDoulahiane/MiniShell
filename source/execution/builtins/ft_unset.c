@@ -6,11 +6,11 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:26:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 14:32:08 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:15:33 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../headers/execution.h"
+#include "../../../headers/minishell.h"
 
 bool	check_is_valid_unset_identifier(char *str)
 {

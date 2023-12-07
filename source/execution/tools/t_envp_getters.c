@@ -6,11 +6,11 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:12:29 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 13:34:13 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:16:57 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../headers/execution.h"
+#include "../../../headers/minishell.h"
 
 char	*ft_get_key(char *str)
 {
@@ -48,4 +48,22 @@ char	*ft_get_env(t_data *data, char *key)
 		temp = temp->next;
 	}
 	return (NULL);
+}
+
+void	ft_declare_export(t_data *data)
+{
+	t_envp	*temp;
+
+	temp = data->envp;
+	while (temp)
+	{
+		if (ft_strcmp(temp->key, "_"))
+		{
+			printf("declare -x %s", temp->key);
+			if (temp->value)
+				printf("=\"%s\"", temp->value);
+			printf("\n");
+		}
+		temp = temp->next;
+	}
 }

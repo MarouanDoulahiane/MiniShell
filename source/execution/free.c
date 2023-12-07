@@ -6,11 +6,11 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:21:25 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 12:41:55 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:15:22 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/execution.h"
+#include "../../headers/minishell.h"
 
 void	free_t_envp(t_envp	*envp)
 {

@@ -6,11 +6,11 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:26:54 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/06 20:35:30 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:16:52 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../headers/execution.h"
+#include "../../../headers/minishell.h"
 
 void	handle_builtins(t_data *data)
 {
