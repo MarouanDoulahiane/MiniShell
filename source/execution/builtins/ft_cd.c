@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:41:54 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 17:08:01 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 17:33:45 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	check_if_dir_exist(char *path)
 {
 	char	*temp;
-	
+
 	if (!ft_strcmp(path, "."))
 	{
 		temp = getcwd(NULL, 0);
@@ -43,17 +43,19 @@ void	ft_cd(t_data *data)
 			return ;
 		}
 		else
-			replace_old_t_env_value(data, "OLDPWD", ft_strdup(ft_get_env(data, "PWD")));
+			replace_old_t_env_value(data, "OLDPWD",
+				ft_strdup(ft_get_env(data, "PWD")));
 	}
 	else
 	{
 		if (chdir(getenv("HOME")) == -1)
 		{
 			printf("cd: HOME not set\n");
-			return ;	
+			return ;
 		}
 		else
-			replace_old_t_env_value(data, "OLDPWD", ft_strdup(ft_get_env(data, "PWD")));
+			replace_old_t_env_value(data, "OLDPWD",
+				ft_strdup(ft_get_env(data, "PWD")));
 	}
 	replace_old_t_env_value(data, "PWD", getcwd(NULL, 0));
 }

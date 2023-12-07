@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:04:46 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 15:44:37 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 17:32:28 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_envp	*initialize_t_envp(char **envp)
 		free(key);
 		i++;
 	}
-	return (envp_list);	
+	return (envp_list);
 }
 
 t_data	*initialize_data(char **envp)

@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:35:22 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 13:13:46 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/07 17:35:00 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ void	ft_echo(t_data *data)
 	i = 1;
 	n_flag = 0;
 	while (data->command[i] && data->command[i][0] == '-'
-		&& data->command[i][1] == 'n')
+		&& data->command[i][1] == 'n' && data->command[i][j])
 	{
 		j = 2;
 		n_flag = 1;
 		while (data->command[i][j] == 'n')
 			j++;
-		if (data->command[i][j] != '\0')
-			break ;
 		i++;
 	}
 	while (data->command[i])
