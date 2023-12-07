@@ -1,5 +1,5 @@
 # Created by: mdoulahi
-SRC = source/main.c
+SRC = main.c source/execution/*.c source/execution/*/*.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -11,9 +11,9 @@ CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME):
 	@make -C libft
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) libft/libft.a -lreadline 
+	@$(CC) $(CFLAGS) -o $(NAME) $(SRC) libft/libft.a -lreadline
 
 %.o: %.c header/minishell.h
 	@$(CC) $(CFLAGS) -c $< -o $@

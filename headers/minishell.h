@@ -1,6 +1,7 @@
 #ifndef HEADER_H
 # define HEADER_H
 
+# include <errno.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -9,6 +10,7 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "execution.h"
 # include "../libft/libft.h"
 
 # define GREEN "\033[1;32m"
@@ -28,20 +30,56 @@
 # define BGRED "\033[41m"
 # define RESET "\033[0m"
 
-typedef struct s_env
+typedef struct s_envp
 {
-	bool			is_env;
+	bool			is_envp;
 	char			*key;
 	char			*value;
-	struct s_env	*next;
-}				t_env;
+	struct s_envp	*next;
+}				t_envp;
 
 typedef struct s_data
 {
 	char	*input;
 	char	**command;
-	char	**env_array;
-	t_env	*env;
+	char	**envp_array;
+	t_envp	*envp;
 }				t_data;
+
+
+// initialization
+t_data	*initialize_data(char **envp);
+
+// builtins
+void	handle_builtins(t_data *data);
+void	ft_pwd(void);
+void	ft_cd(t_data *data);
+void	ft_env(t_data *data);
+void	ft_echo(t_data *data);
+void	ft_unset(t_data	*data);
+void	ft_exit(t_data	*data);
+void	ft_export(t_data *data);
+
+// execution
+void ft_execve(t_data *data);
+
+// free
+void	free_array(char **array);
+void	free_t_envp(t_envp	*envp);
+void	free_t_data(t_data	*data);
+
+// t_envp tools
+bool	ft_check_valid_key(char *str);
+void	ft_declare_export(t_data *data);
+void	ft_add_env(t_data *data, char *str);
+void	ft_append_env(t_data *data, char *str);
+void	add_back_t_envp(t_envp **envp_list, t_envp *new);
+void	replace_old_t_env_value(t_data *data, char *key, char *value);
+
+// t_envp getters
+char	*ft_get_key(char *str);
+char	*ft_get_value(char *str);
+char	*ft_get_env(t_data *data, char *key);
+t_envp	*create_t_envp(char *key, char *value);
 
 #endif
