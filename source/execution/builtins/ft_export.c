@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:15:16 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:15:31 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:39:16 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void	ft_export(t_data *data)
 	{
 		if (!ft_check_valid_key(data->command[i]))
 		{
-			printf("minishell: export: `%s': not a valid identifier\n",
-				data->command[i]);
+			ft_print_err("minishell: export: `");
+			ft_print_err(data->command[i]);
+			ft_print_err("': not a valid identifier\n");
 			i++;
 			continue ;
 		}
