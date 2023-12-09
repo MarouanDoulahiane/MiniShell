@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:08:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 18:42:28 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:54:51 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_update_shlvl(char	***envp_array)
 		{
 			to_free = tmp[i];
 			shlvl = ft_itoa(ft_atoi(tmp[i] + 6) + 1);
+			if (!shlvl)
+				return ;
 			tmp[i] = ft_strjoin("SHLVL=", shlvl);
 			free(shlvl);
 			free(to_free);
@@ -50,12 +52,23 @@ void	if_execve_args_null(t_data *data)
 {
 	if (data->command[0][0] == '.' && data->command[0][1] == '/'
 			&& !access(&data->command[0][2], F_OK))
-		printf("minishell: %s: Permission denied\n", data->command[0]);
+	{
+		ft_print_err("minishell: ");
+		ft_print_err(data->command[0]);
+		ft_print_err(": Permission denied\n");
+	}
 	else if (data->command[0][0] == '.' && data->command[0][1] == '/')
-		printf("minishell: %s: No such file or directory\n",
-			data->command[0]);
+	{
+		ft_print_err("minishell: ");
+		ft_print_err(data->command[0]);
+		ft_print_err(": No such file or directory\n");
+	}
 	else
-		printf("minishell: %s: command not found\n", data->command[0]);
+	{
+		ft_print_err("minishell: ");
+		ft_print_err(data->command[0]);
+		ft_print_err(": command not found\n");
+	}
 }
 
 void	ft_execve_helper(t_data *data, int pid, char **execve_args)
