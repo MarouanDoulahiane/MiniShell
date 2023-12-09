@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:26:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:15:33 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:43:47 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@ bool	check_is_valid_unset_identifier(char *str)
 
 bool	ft_unset_helper(t_data *data, t_envp *temp, t_envp *prev)
 {
-	if (prev)
-		prev->next = temp->next;
-	else
-		data->envp = temp->next;
-	free(temp->key);
-	free(temp->value);
-	free(temp);
-	return (true);
+	if (ft_strcmp(temp->key, "_"))
+	{
+		if (prev)
+			prev->next = temp->next;
+		else
+			data->envp = temp->next;
+		free(temp->key);
+		free(temp->value);
+		free(temp);
+		return (true);
+	}
 }
 
 void	ft_unset(t_data	*data)
@@ -52,8 +55,9 @@ void	ft_unset(t_data	*data)
 	{
 		if (!check_is_valid_unset_identifier(data->command[i]))
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n",
-				data->command[i++]);
+			ft_print_err("minishell: unset: `");
+			ft_print_err(data->command[i]);
+			ft_print_err("': not a valid identifier\n");
 			continue ;
 		}
 		temp = data->envp;
@@ -61,7 +65,6 @@ void	ft_unset(t_data	*data)
 		while (temp)
 		{
 			if (!ft_strcmp(temp->key, data->command[i])
-				&& ft_strcmp(temp->key, "_")
 				&& ft_unset_helper(data, temp, prev))
 				break ;
 			prev = temp;
