@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:26:54 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:16:52 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:32:35 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_builtins(t_data *data)
 	else if (ft_strcmp(data->command[0], "cd") == 0)
 		ft_cd(data);
 	else if (ft_strcmp(data->command[0], "pwd") == 0)
-		ft_pwd();
+		ft_pwd(data);
 	else if (ft_strcmp(data->command[0], "export") == 0)
 		ft_export(data);
 	else if (ft_strcmp(data->command[0], "unset") == 0)

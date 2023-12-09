@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_print_err.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 19:43:13 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 18:32:57 by mdoulahi         ###   ########.fr       */
+/*   Created: 2023/12/09 17:04:37 by mdoulahi          #+#    #+#             */
+/*   Updated: 2023/12/09 17:12:45 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../headers/minishell.h"
 
-void	ft_pwd(t_data *data)
+void	ft_print_err(char *str)
 {
-	printf("%s\n", data->pwd_value);
+	ft_putstr_fd(str, STDERR_FILENO);
 }

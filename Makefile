@@ -13,7 +13,7 @@ all: $(NAME)
 
 $(NAME):
 	@make -C libft
-	@$(CC) $(CFLAGS) -o $(NAME) $(SRC) libft/libft.a -lreadline
+	@$(CC) $(CFLAGS) -o $(NAME) $(SRC) libft/libft.a -lreadline 
 
 %.o: %.c header/minishell.h
 	@$(CC) $(CFLAGS) -c $< -o $@

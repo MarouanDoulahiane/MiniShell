@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:14:18 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:15:48 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:32:43 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,20 @@ typedef struct s_data
 	char	*input;
 	char	**command;
 	char	**envp_array;
+	char	*pwd_key;
+	char	*pwd_value;
 	t_envp	*envp;
 }				t_data;
+
+// tools
+void	ft_print_err(char *str);
 
 // initialization
 t_data	*initialize_data(char **envp);
 
 // builtins
 void	handle_builtins(t_data *data);
-void	ft_pwd(void);
+void	ft_pwd(t_data *data);
 void	ft_cd(t_data *data);
 void	ft_env(t_data *data);
 void	ft_echo(t_data *data);
@@ -83,6 +88,7 @@ bool	ft_check_valid_key(char *str);
 void	ft_declare_export(t_data *data);
 void	ft_add_env(t_data *data, char *str);
 void	ft_append_env(t_data *data, char *str);
+bool	ft_is_key_exist(t_data *data, char *key);
 void	add_back_t_envp(t_envp **envp_list, t_envp *new);
 void	replace_old_t_env_value(t_data *data, char *key, char *value);
 

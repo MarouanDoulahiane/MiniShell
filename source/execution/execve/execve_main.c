@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:08:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:08:22 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:42:28 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_execve_helper(t_data *data, int pid, char **execve_args)
 	{
 		if (execve(execve_args[0], execve_args, data->envp_array) == -1)
 		{
-			perror(strerror(errno));
+			perror("execve: Error \n");
 			free_if_execve_fails(execve_args, data->envp_array);
 			exit(1);
 		}
@@ -75,7 +75,7 @@ void	ft_execve_helper(t_data *data, int pid, char **execve_args)
 	else
 	{
 		if (waitpid(pid, NULL, 0) == -1)
-			perror(strerror(errno));
+			perror("waitpid: Error \n");
 	}
 }
 
@@ -93,7 +93,7 @@ void	ft_execve(t_data *data)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror(strerror(errno));
+		perror("fork: Error \n");
 		return (free_if_execve_fails(execve_args, NULL));
 	}
 	ft_execve_helper(data, pid, execve_args);

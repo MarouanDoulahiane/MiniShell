@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:04:46 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:16:41 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:49:36 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,21 @@ t_envp	*create_t_envp(char *key, char *value)
 		return (NULL);
 	new->is_envp = true;
 	new->key = ft_strdup(key);
+	if (!new->key)
+	{
+		free(new);
+		return (NULL);
+	}
 	if (!value)
 		new->value = NULL;
 	else
 		new->value = ft_strdup(value);
+	if (value && !new->value)
+	{
+		free(new->key);
+		free(new);
+		return (NULL);
+	}
 	new->next = NULL;
 	return (new);
 }
@@ -32,15 +43,20 @@ t_envp	*create_t_envp(char *key, char *value)
 t_envp	*initialize_t_envp_witoout_envp(void)
 {
 	t_envp	*envp_list;
-	char	pwdbuf[1024];
 	char	*temp;
+	char	buf[1024];
 
 	envp_list = NULL;
-	getcwd(pwdbuf, sizeof(pwdbuf));
+	getcwd(buf, 1024);
 	add_back_t_envp(&envp_list, create_t_envp("SHLVL", "1"));
-	add_back_t_envp(&envp_list, create_t_envp("PWD", pwdbuf));
+	add_back_t_envp(&envp_list, create_t_envp("PWD", buf));
 	add_back_t_envp(&envp_list, create_t_envp("OLDPWD", NULL));
-	temp = ft_strjoin(pwdbuf, "/./minishell");
+	temp = ft_strjoin(buf, "/./minishell");
+	if (!temp)
+	{
+		free_t_envp(envp_list);
+		return (NULL);
+	}
 	add_back_t_envp(&envp_list, create_t_envp("_", temp));
 	free(temp);
 	return (envp_list);
@@ -60,6 +76,11 @@ t_envp	*initialize_t_envp(char **envp)
 	while (envp[i])
 	{
 		key = ft_substr(envp[i], 0, ft_strchr(envp[i], '=') - envp[i]);
+		if (!key)
+		{
+			free_t_envp(envp_list);
+			return (NULL);
+		}
 		value = ft_strchr(envp[i], '=') + 1;
 		add_back_t_envp(&envp_list, create_t_envp(key, value));
 		free(key);
@@ -71,20 +92,25 @@ t_envp	*initialize_t_envp(char **envp)
 t_data	*initialize_data(char **envp)
 {
 	t_data	*data;
+	char	buf[1024];
 
 	data = (t_data *)malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	data->input = NULL;
-	data->command = NULL;
 	data->envp_array = NULL;
-	data->envp = NULL;
+	data->command = NULL;
+	data->input = NULL;
 	data->envp = initialize_t_envp(envp);
 	if (!data->envp)
+		return (free(data), NULL);
+	getcwd(buf, 1024);
+	data->pwd_key = ft_strdup("PWD");
+	data->pwd_value = ft_strdup(buf);
+	printf("pwd_value: %s\n", data->pwd_value);
+	if (!data->pwd_key || !data->pwd_value)
 	{
-		free(data);
+		free_t_data(data);
 		return (NULL);
 	}
-	printf("try to find a bug in init data\n");
 	return (data);
 }

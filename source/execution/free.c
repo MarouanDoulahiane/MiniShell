@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:21:25 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:15:22 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:25:04 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ void	free_t_data(t_data	*data)
 	free_array(data->envp_array);
 	free_array(data->command);
 	free(data->input);
+	free(data->pwd_key);
+	free(data->pwd_value);
 	free(data);
 }
