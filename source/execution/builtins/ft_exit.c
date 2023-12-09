@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:24:23 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 02:03:53 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:47:15 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	ft_exit(t_data	*data)
 		}
 		else
 		{
-			printf("exit\n");
-			printf("minishell: exit: %s: numeric argument required\n",
-				data->command[1]);
+			ft_print_err("exit\nminishell: exit: ");
+			ft_print_err(data->command[1]);
+			ft_print_err(": numeric argument required\n");
 			exit(255);
 		}
 	}
