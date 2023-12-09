@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:26:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 19:43:47 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 19:55:20 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ bool	ft_unset_helper(t_data *data, t_envp *temp, t_envp *prev)
 		free(temp);
 		return (true);
 	}
+	return (false);
 }
 
 void	ft_unset(t_data	*data)
