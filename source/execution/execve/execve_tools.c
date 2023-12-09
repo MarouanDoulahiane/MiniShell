@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:02:22 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/07 20:07:49 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:22:34 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**ft_get_path(t_data *data)
 	char	**path;
 
 	path = ft_split(ft_get_env(data, "PATH"), ':');
-	if (!path)
+	if (!path && data->allowed_path)
 	{
 		path = ft_split("usr/gnu/bin:/usr/local/bin:/bin:/usr/bin",
 				':');

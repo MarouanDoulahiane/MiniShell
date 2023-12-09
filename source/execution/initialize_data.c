@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:04:46 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 18:49:36 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:07:13 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_data	*initialize_data(char **envp)
 	data->envp_array = NULL;
 	data->command = NULL;
 	data->input = NULL;
+	data->allowed_path = true;
 	data->envp = initialize_t_envp(envp);
 	if (!data->envp)
 		return (free(data), NULL);

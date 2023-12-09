@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:26:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 19:55:20 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:21:24 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ bool	check_is_valid_unset_identifier(char *str)
 	return (true);
 }
 
-bool	ft_unset_helper(t_data *data, t_envp *temp, t_envp *prev)
+bool	ft_unset_helper(t_data *data, t_envp *temp, t_envp *prev, char *command)
 {
-	if (ft_strcmp(temp->key, "_"))
+	if (ft_strcmp(temp->key, "_") && !ft_strcmp(temp->key, command))
 	{
+		if (!ft_strcmp(temp->key, "PATH"))
+			data->allowed_path = false;
 		if (prev)
 			prev->next = temp->next;
 		else
@@ -43,6 +45,13 @@ bool	ft_unset_helper(t_data *data, t_envp *temp, t_envp *prev)
 		return (true);
 	}
 	return (false);
+}
+
+void	unset_path(t_data *data, char *command, t_envp **prev)
+{
+	if (!ft_strcmp(command, "PATH"))
+		data->allowed_path = false;
+	*prev = NULL;
 }
 
 void	ft_unset(t_data	*data)
@@ -61,12 +70,12 @@ void	ft_unset(t_data	*data)
 			ft_print_err("': not a valid identifier\n");
 			continue ;
 		}
+		unset_path(data, data->command[i], &prev);
 		temp = data->envp;
-		prev = NULL;
 		while (temp)
 		{
-			if (!ft_strcmp(temp->key, data->command[i])
-				&& ft_unset_helper(data, temp, prev))
+			if (ft_unset_helper(data, temp, prev,
+					data->command[i]))
 				break ;
 			prev = temp;
 			temp = temp->next;

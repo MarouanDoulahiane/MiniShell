@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:14:18 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 18:32:43 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:06:19 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_data
 	char	**envp_array;
 	char	*pwd_key;
 	char	*pwd_value;
+	bool	allowed_path;
 	t_envp	*envp;
 }				t_data;
 
