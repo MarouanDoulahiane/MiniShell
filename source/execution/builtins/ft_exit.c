@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:24:23 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 19:47:15 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:57:03 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 void	ft_exit_helper(t_data	*data)
 {
 	if (ft_cmd_isdigit(data->command[1]))
-		printf("exit\nminishell: exit: too many arguments\n");
+	{
+		ft_print_err("exit\n");
+		ft_print_err("minishell: exit: too many arguments\n");
+	}
 	else
 	{
-		printf("exit\n");
-		printf("minishell: exit: %s: numeric argument required\n",
-			data->command[1]);
+		ft_print_err("exit\nminishell: exit: ");
+		ft_print_err(data->command[1]);
+		ft_print_err(": numeric argument required\n");
 		exit(255);
 	}
 }

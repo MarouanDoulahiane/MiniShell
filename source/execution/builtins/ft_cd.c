@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:41:54 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 19:17:05 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:55:28 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ bool	ft_cd_not_found(t_data *data)
 {
 	if (chdir(data->command[1]) == -1)
 	{
-		printf("cd: %s: No such file or directory\n", data->command[1]);
+		ft_print_err("cd: ");
+		ft_print_err(data->command[1]);
+		ft_print_err(": No such file or directory\n");
 		return (true);
 	}
 	return (false);

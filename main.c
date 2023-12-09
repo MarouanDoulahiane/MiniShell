@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:20:14 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 18:52:47 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:58:35 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,6 @@ char	*prompt(void)
 	return (input);
 }
 
-// void	save_history(char *input)
-// {
-// 	int		i;
-// 	bool	is_whitespace;
-
-// 	i = 0;
-// 	is_whitespace = true;
-// 	while (input[i])
-// 	{
-// 		if (input[i] != ' ' && !(input[i] >= 9 && input[i] <= 13))
-// 			is_whitespace = false;
-// 		i++;
-// 	}
-// 	if (input && *input && !is_whitespace)
-// 		add_history(input);
-// }
-
-void	f(void)
-{
-	system("leaks minishell");
-}
-
 void	free_data(t_data *data, bool free_envp, bool free_command)
 {
 	if (free_envp)
@@ -75,7 +53,6 @@ void	free_data(t_data *data, bool free_envp, bool free_command)
 	free(data->input);
 }
 
-
 int	main(int ac, char **av, char **envp)
 {
 	t_data	*data;
@@ -85,7 +62,6 @@ int	main(int ac, char **av, char **envp)
 	data = initialize_data(envp);
 	if (!data)
 		return (1);
-	// atexit(f);
 	while (1)
 	{
 		data->input = prompt();

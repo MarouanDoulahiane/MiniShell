@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:04:46 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 20:07:13 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/09 20:54:30 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ t_data	*initialize_data(char **envp)
 	getcwd(buf, 1024);
 	data->pwd_key = ft_strdup("PWD");
 	data->pwd_value = ft_strdup(buf);
-	printf("pwd_value: %s\n", data->pwd_value);
 	if (!data->pwd_key || !data->pwd_value)
 	{
 		free_t_data(data);
