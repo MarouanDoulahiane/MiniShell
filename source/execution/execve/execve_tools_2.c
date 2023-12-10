@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:07:44 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/10 17:10:41 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/10 17:13:31 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**ft_env_to_array(t_envp *envp)
 	while (envp)
 	{
 		envp_array[i] = NULL;
-		if (env->value)
+		if (envp->value)
 			envp_array[i] = ft_strjoin(envp->key, "=");
 		if (!envp_array[i])
 			return (free_array(envp_array), NULL);
