@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:24:23 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/09 20:57:03 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/10 17:09:19 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	ft_exit(t_data	*data)
 		if (ft_cmd_isdigit(data->command[1]))
 		{
 			printf("exit\n");
-			free_t_data(data);
 			exit(ft_atoi(data->command[1]));
 		}
 		else
