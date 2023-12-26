@@ -6,7 +6,7 @@
 #    By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/02 21:34:54 by shamsate          #+#    #+#              #
-#    Updated: 2023/12/26 02:22:00 by mdoulahi         ###   ########.fr        #
+#    Updated: 2023/12/26 02:50:17 by mdoulahi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ EXEC = $(addprefix src/execution/, pipe/excute.c pipe/final_execute.c pipe/first
 		pipe/last_pipe.c pipe/tools.c init_helper.c \
 		execve/execve_main.c execve/execve_tools.c execve/execve_tools_2.c initialize_data.c free.c \
 		builtins/ft_cd.c builtins/ft_echo.c builtins/ft_env.c builtins/ft_exit.c \
-		builtins/ft_export.c builtins/ft_pwd.c builtins/ft_unset.c builtins/handle_builtins.c tools/t_envp_tools.c \
+		builtins/ft_export.c builtins/ft_pwd.c builtins/ft_unset.c tools/t_envp_tools.c \
 		tools/ft_print_err.c tools/replace_old_t_env_value.c tools/t_envp_getters.c )
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   name_expand.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 22:47:51 by shamsate          #+#    #+#             */
-/*   Updated: 2023/12/24 03:04:48 by shamsate         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:54:58 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*expand_var_str(char *val, t_context *context)
 		if (val[i] == '$' && is_val_char(val[i + 1])
 			&& (check_quotes(val, i) == 0 || check_quotes(val, i) == 1))
 		{
-			if (val[i] != '$' && !ft_isdigit(val[i + 1]))
+			if (val[i + 1] != '$' && !ft_isdigit(val[i + 1]))
 				get_val_concat(val, &i, &str, context);
 			else
 				i++;
