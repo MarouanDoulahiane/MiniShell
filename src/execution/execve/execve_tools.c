@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:02:22 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/26 02:50:54 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 15:36:19 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ bool	check_command_if_it_exists_in_path(t_comd *cmd,
 	i = 0;
 	while (path[i])
 	{
+		if (cmd->comd[0] == '/' || cmd->comd[0] == '.')
+			break ;
 		temp = ft_strjoin(ft_strdup(path[i]), "/");
 		if (!temp)
 			return (false);
@@ -52,12 +54,12 @@ bool	check_command_if_it_exists_in_path(t_comd *cmd,
 
 bool	check_command_if_it_exists_in_current_dir(t_comd *cmd, char **command)
 {
-	if (cmd->comd[0] != '.' || cmd->comd[1] != '/')
+	if ((cmd->comd[0] != '.' && cmd->comd[1] != '/' && cmd->comd[0] != '/'))
 		return (false);
 	*command = ft_strdup(cmd->comd);
 	if (!*command)
 		return (false);
-	if (!access(*command + 2, X_OK))
+	if (!access(*command, X_OK))
 		return (true);
 	free(*command);
 	return (false);
