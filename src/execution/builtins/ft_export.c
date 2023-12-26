@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:15:16 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/26 00:14:55 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 01:12:51 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ void	ft_export_update_content(t_info *info)
 	while (temp)
 	{
 		temp2 = ft_strjoin(ft_strdup(temp->key), "=");
-		temp->content = ft_strjoin(temp2, temp->value);
+		if (temp->value)
+			temp->content = ft_strjoin(temp2, temp->value);
+		else
+			temp->content = temp2;
 		temp = temp->next;
 	}
 }
