@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 17:56:46 by ylamsiah          #+#    #+#             */
-/*   Updated: 2023/12/26 02:22:24 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 03:09:13 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int ac, char **av, char **env)
 	rl_catch_signals = 0;
 	printf("%s\n", START);
 	if (!isatty(0))
-		return (0);
+		return (printf("idik fih\n"), 0);
 	if (ac == 1)
 	{
 		info = initialize_data(env);

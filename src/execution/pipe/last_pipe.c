@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 18:48:34 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/25 23:19:35 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 03:14:05 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	dups_last_pipe(int **fd, int i, t_comd *cmd)
 	if (cmd->inp == 0)
 		dup2(fd[i][0], cmd->inp);
 	dup2(cmd->inp, 0);
+	dup2(cmd->outp, 1);
 	close(fd[i][0]);
 }
 
