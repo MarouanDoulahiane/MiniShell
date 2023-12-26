@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:28:44 by shamsate          #+#    #+#             */
-/*   Updated: 2023/12/26 01:49:48 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:21:23 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int			are_builin(t_comd *cmd);
 
 // tools
 void		ft_print_err(char *str, int fd);
+t_tkn		*init(t_context *context);
 
 // initialization
 t_info		*initialize_data(char **envp);

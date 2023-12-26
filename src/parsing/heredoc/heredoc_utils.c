@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 01:19:33 by shamsate          #+#    #+#             */
-/*   Updated: 2023/12/25 23:16:40 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:16:03 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ t_context	*initialize_context(t_envp *envp)
 	if (!context->data)
 		return (NULL);
 	context->data->env = envp;
+	context->data->f_stdin = dup(0);
+	context->data->f_stdout = dup(1);
 	return (context);
 }

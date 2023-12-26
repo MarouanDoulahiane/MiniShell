@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:26:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/26 02:07:13 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:11:10 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	check_is_valid_unset_identifier(char *str)
 // 	return (false);
 // }
 
-bool	ft_unset_helper(t_info *data, t_envp *temp, t_envp *prev, t_comd *cmd)
+bool	ft_unset_h(t_info *data, t_envp *temp, t_envp *prev, t_comd *cmd)
 {
 	if (ft_strcmp(temp->key, "_") && !ft_strcmp(temp->key, cmd->argms[1]))
 	{
@@ -130,8 +130,7 @@ void	ft_unset(t_comd *cmd, t_info *info)
 		temp = info->envp;
 		while (temp)
 		{
-			if (ft_unset_helper(info, temp, prev,
-					cmd))
+			if (ft_unset_h(info, temp, prev, cmd))
 				break ;
 			prev = temp;
 			temp = temp->next;

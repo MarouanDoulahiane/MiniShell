@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 17:56:46 by ylamsiah          #+#    #+#             */
-/*   Updated: 2023/12/26 02:02:36 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:22:24 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,7 @@ int	main(int ac, char **av, char **env)
 		if (info == NULL)
 			exit(1);
 		context = initialize_context(info->envp);
-		if (context == NULL)
-			exit(1);
-		context->data->f_stdin = dup(0);
-		context->data->f_stdout = dup(1);
-		data = malloc(sizeof(t_tkn *));
-		if (!data)
-			exit(1);
+		data = init(context);
 		cmd = NULL;
 		loop_and_process_exec_cmd(data, cmd, context, info);
 		free(data);
