@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:07:44 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/25 23:25:05 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 01:51:29 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ int	ft_t_envp_size(t_envp *envp)
 	return (i);
 }
 
+void	ft_env_to_array_helper(char **envp_array, t_envp *envp, int i)
+{
+	envp_array[i] = NULL;
+	if (envp->value)
+		envp_array[i] = ft_strjoin(ft_strdup(envp->key), "=");
+}
+
 char	**ft_env_to_array(t_envp *envp)
 {
 	char		**envp_array;
@@ -37,9 +44,7 @@ char	**ft_env_to_array(t_envp *envp)
 	i = 0;
 	while (envp)
 	{
-		envp_array[i] = NULL;
-		if (envp->value)
-			envp_array[i] = ft_strjoin(ft_strdup(envp->key), "=");
+		ft_env_to_array_helper(envp_array, envp, i);
 		if (!envp_array[i])
 			return (free_array(envp_array), NULL);
 		if (envp->value)
@@ -55,3 +60,7 @@ char	**ft_env_to_array(t_envp *envp)
 	}
 	return (envp_array[i] = NULL, envp_array);
 }
+
+		// envp_array[i] = NULL;
+		// if (envp->value)
+		// 	envp_array[i] = ft_strjoin(ft_strdup(envp->key), "=");

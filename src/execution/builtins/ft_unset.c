@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 20:26:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/25 23:29:10 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:07:13 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	ft_unset(t_comd *cmd, t_info *info)
 			ft_print_err("minishell: unset: `", cmd->outp);
 			ft_print_err(cmd->argms[i], cmd->outp);
 			ft_print_err("': not a valid identifier\n", cmd->outp);
+			g_ext_status = 1;
 			continue ;
 		}
 		unset_path(info, cmd, &prev);

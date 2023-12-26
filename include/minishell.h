@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 17:28:44 by shamsate          #+#    #+#             */
-/*   Updated: 2023/12/26 00:21:20 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 01:49:48 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@
 	\033[1;31m╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════╝ ╚═╝  ╚═╝  ╚══════╝ ╚══════╝ ╚══════╝ \033[34m\n\
 	\033[1;31m                                                             \
 	  BY: R4v3n. \033[34m\033[0m\n"
-
 
 typedef struct s_envp
 {
@@ -120,7 +119,7 @@ typedef struct s_context
 	t_data	*data;
 }				t_context;
 
-int			g_ext_status;
+int	g_ext_status;
 
 typedef struct s_comd
 {

@@ -6,31 +6,14 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 19:04:46 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/25 20:38:23 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 01:56:34 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_envp	*create_t_envp(char *key, char *value)
+t_envp	*create_t_envp_helper(t_envp *new, char *value, char *key, char *temp)
 {
-	t_envp	*new;
-	char	*temp;
-
-	new = (t_envp *)malloc(sizeof(t_envp));
-	if (!new)
-		return (NULL);
-	new->is_envp = true;
-	new->key = ft_strdup(key);
-	if (!new->key)
-	{
-		free(new);
-		return (NULL);
-	}
-	if (!value)
-		new->value = NULL;
-	else
-		new->value = ft_strdup(value);
 	if (value && !new->value)
 	{
 		free(new->key);
@@ -53,7 +36,54 @@ t_envp	*create_t_envp(char *key, char *value)
 	}
 	new->next = NULL;
 	return (new);
+	return (new);
 }
+
+t_envp	*create_t_envp(char *key, char *value)
+{
+	t_envp	*new;
+	char	*temp;
+
+	new = (t_envp *)malloc(sizeof(t_envp));
+	temp = NULL;
+	if (!new)
+		return (NULL);
+	new->is_envp = true;
+	new->key = ft_strdup(key);
+	if (!new->key)
+	{
+		free(new);
+		return (NULL);
+	}
+	if (!value)
+		new->value = NULL;
+	else
+		new->value = ft_strdup(value);
+	return (create_t_envp_helper(new, value, key, temp));
+}
+
+	// if (value && !new->value)
+	// {
+	// 	free(new->key);
+	// 	free(new);
+	// 	return (NULL);
+	// }
+	// if (!value)
+	// 	new->content = ft_strjoin(ft_strdup(key), "=");
+	// else
+	// {
+	// 	temp = ft_strjoin(ft_strdup(key), "=");
+	// 	new->content = ft_strjoin(temp, value);
+	// }
+	// if (!new->content)
+	// {
+	// 	free(new->key);
+	// 	free(new->value);
+	// 	free(new);
+	// 	return (NULL);
+	// }
+	// new->next = NULL;
+	// return (new);
 
 t_envp	*initialize_t_envp_witoout_envp(void)
 {

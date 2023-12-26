@@ -6,11 +6,11 @@
 #    By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/02 21:34:54 by shamsate          #+#    #+#              #
-#    Updated: 2023/12/25 19:19:45 by mdoulahi         ###   ########.fr        #
+#    Updated: 2023/12/26 02:00:08 by mdoulahi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Minishell
+NAME = minishell
 
 YELLOW	=	$(shell tput -Txterm setaf 4)
 GREEN	=	$(shell tput -Txterm setaf 5)

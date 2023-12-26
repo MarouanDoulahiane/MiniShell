@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 17:56:46 by ylamsiah          #+#    #+#             */
-/*   Updated: 2023/12/26 01:07:36 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:02:36 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	handle_signal_in_out(t_context *context)
 	dup2(context->data->f_stdin, 0);
 	dup2(context->data->f_stdout, 1);
 	context->data->sig = 0;
-	signal(SIGQUIT, SIG_IGN);
 	handle_signal_ctrl_c(-200, context);
+	signal(SIGQUIT, (void (*)(int))handle_signal_ctrl_c);
 	signal(SIGINT, (void (*)(int))handle_signal_ctrl_c);
 }
 

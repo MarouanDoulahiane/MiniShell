@@ -6,7 +6,7 @@
 /*   By: mdoulahi <mdoulahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 20:08:21 by mdoulahi          #+#    #+#             */
-/*   Updated: 2023/12/26 00:16:20 by mdoulahi         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:08:02 by mdoulahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,36 @@ void	ft_update_shlvl(char	***envp_array)
 	}
 }
 
-
 void	if_execve_args_null(t_comd *cmd)
 {
 	if (cmd->comd[0] == '.' && cmd->comd[1] == '/'
-			&& !access(&cmd->comd[2], F_OK))
+		&& !access(&cmd->comd[2], F_OK))
 	{
 		ft_print_err("minishell: ", cmd->outp);
 		ft_print_err(cmd->comd, cmd->outp);
 		ft_print_err(": Permission denied\n", cmd->outp);
+		g_ext_status = 126;
 	}
 	else if (cmd->comd[0] == '.' && cmd->comd[1] == '/')
 	{
 		ft_print_err("minishell: ", cmd->outp);
 		ft_print_err(cmd->comd, cmd->outp);
 		ft_print_err(": No such file or directory\n", cmd->outp);
+		g_ext_status = 127;
 	}
 	else
 	{
 		ft_print_err("minishell: ", cmd->outp);
 		ft_print_err(cmd->comd, cmd->outp);
 		ft_print_err(": command not found\n", cmd->outp);
+		g_ext_status = 127;
 	}
-
 }
-
 
 void	ft_execve_helper(t_comd *cmd, t_info *data, int pid, char **execve_args)
 {
 	data->envp_array = ft_env_to_array(data->envp);
-	if (!ft_strcmp(cmd->argms[0], "./minishell") && data->envp_array)
+	if (!ft_strcmp(cmd->comd, "./minishell") && data->envp_array)
 		ft_update_shlvl(&data->envp_array);
 	if (pid == 0)
 	{
@@ -116,17 +116,9 @@ void	ft_execve(t_comd *cmd, t_info *data)
 	if (pid == -1)
 	{
 		ft_print_err("fork: Error\n", cmd->outp);
+		g_ext_status = 1;
 		return (free_if_execve_fails(execve_args, NULL));
 	}
 	ft_execve_helper(cmd, data, pid, execve_args);
 	free_if_execve_fails(execve_args, data->envp_array);
 }
-
-
-// void	ft_execve(t_comd *cmd, char **env)
-// {
-// 	int		pid;
-// 	char	**execve_args;
-
-	
-// }
